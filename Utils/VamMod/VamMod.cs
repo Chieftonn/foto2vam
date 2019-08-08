@@ -13,6 +13,21 @@ using UnityEngine;
 
 namespace VamMod
 {
+  public class Foto2VamPlugin : MVRScript {
+    Foto2VamServer server = null;
+
+    void Start() {
+      if (server == null) {
+        server = new Foto2VamServer();
+      }
+    }
+
+    void OnDestroy() {
+      server = null;
+    }
+
+  }
+
 	public class Foto2VamServer
 	{
 		~Foto2VamServer()

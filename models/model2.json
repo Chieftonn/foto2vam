@@ -1,0 +1,65 @@
+{
+    "baseJson": "sample/base.json",
+    "inputs": [
+        {
+            "name": "encoding",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "encoding",
+            "params": [
+                { "name": "angle", "value": "35" }
+            ]
+        },
+        {
+            "name": "eye_mouth_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "mouth_chin_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "eye_height_width_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "nose_height_width_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "brow_height_width_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "brow_height_width_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "brow_chin_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        }
+    ],
+    "outputs": [
+        {
+            "name": "json",
+            "params": []
+        }
+    ]
+}

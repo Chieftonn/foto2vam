@@ -1,0 +1,35 @@
+{
+    "baseJson": "sample/base_origModel.json",
+    "inputs": [
+        {
+            "name": "encoding",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "encoding",
+            "params": [
+                { "name": "angle", "value": "35" }
+            ]
+        },
+        {
+            "name": "eye_mouth_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        },
+        {
+            "name": "mouth_chin_ratio",
+            "params": [
+                { "name": "angle", "value": "0" }
+            ]
+        }
+    ],
+    "outputs": [
+        {
+            "name": "json",
+            "params": []
+        }
+    ]
+}

@@ -1,0 +1,1178 @@
+{ 
+   "atoms" : [ 
+      { 
+         "id" : "Person", 
+         "type" : "Person", 
+         "storables" : [ 
+            { 
+               "id" : "geometry", 
+               "character" : "Female 1", 
+               "clothing" : [ 
+               ], 
+               "hair" : "SimV2 Hair", 
+               "morphs" : [ 
+                  { 
+                     "name" : "Eye shape 1", 
+                     "value" : "0.16383"
+                  }, 
+                  { 
+                     "name" : "Eye shape 2", 
+                     "value" : "-0.21933"
+                  }, 
+                  { 
+                     "name" : "Eyebrows arc", 
+                     "value" : "-0.03358"
+                  }, 
+                  { 
+                     "name" : "Eyebrows big", 
+                     "value" : "-0.09718"
+                  }, 
+                  { 
+                     "name" : "Eyebrows inner up", 
+                     "value" : "0.08984"
+                  }, 
+                  { 
+                     "name" : "Eyebrows up", 
+                     "value" : "-0.02725"
+                  }, 
+                  { 
+                     "name" : "Eyelid upper size", 
+                     "value" : "0.00432"
+                  }, 
+                  { 
+                     "name" : "Eyelids asian", 
+                     "value" : "-0.03887"
+                  }, 
+                  { 
+                     "name" : "Eyelids lower define", 
+                     "value" : "-0.03599"
+                  }, 
+                  { 
+                     "name" : "Eyes almond", 
+                     "value" : "-0.05765"
+                  }, 
+                  { 
+                     "name" : "Eyes big", 
+                     "value" : "-0.05739"
+                  }, 
+                  { 
+                     "name" : "Eyes lower down", 
+                     "value" : "0.00404"
+                  }, 
+                  { 
+                     "name" : "Eyes outer back", 
+                     "value" : "-0.0194"
+                  }, 
+                  { 
+                     "name" : "Eyes outer up", 
+                     "value" : "0.01665"
+                  }, 
+                  { 
+                     "name" : "Eyes round", 
+                     "value" : "0.02001"
+                  }, 
+                  { 
+                     "name" : "Cheek bones 1", 
+                     "value" : "-0.02814"
+                  }, 
+                  { 
+                     "name" : "Cheeks", 
+                     "value" : "-0.04668"
+                  }, 
+                  { 
+                     "name" : "Chin back", 
+                     "value" : "0.05228"
+                  }, 
+                  { 
+                     "name" : "Chin short", 
+                     "value" : "-0.01966"
+                  }, 
+                  { 
+                     "name" : "Forehead back", 
+                     "value" : "-0.10369"
+                  }, 
+                  { 
+                     "name" : "Face long", 
+                     "value" : "0.10538"
+                  }, 
+                  { 
+                     "name" : "Face mouse", 
+                     "value" : "0.01108"
+                  }, 
+                  { 
+                     "name" : "Face old", 
+                     "value" : "0.07125"
+                  }, 
+                  { 
+                     "name" : "Face oval", 
+                     "value" : "0.02916"
+                  }, 
+                  { 
+                     "name" : "Face thin", 
+                     "value" : "-0.15661"
+                  }, 
+                  { 
+                     "name" : "Face wide", 
+                     "value" : "-0.06897"
+                  }, 
+                  { 
+                     "name" : "Face young", 
+                     "value" : "-0.11239"
+                  }, 
+                  { 
+                     "name" : "Head shape cone", 
+                     "value" : "0.00582"
+                  }, 
+                  { 
+                     "name" : "Head shape pear", 
+                     "value" : "0.036"
+                  }, 
+                  { 
+                     "name" : "Head shape round", 
+                     "value" : "-0.0508"
+                  }, 
+                  { 
+                     "name" : "Lower head small", 
+                     "value" : "0.00964"
+                  }, 
+                  { 
+                     "name" : "MVR_FaceGen_S3", 
+                     "value" : "0.03281"
+                  }, 
+                  { 
+                     "name" : "Breath1", 
+                     "value" : "-0.2606356"
+                  }, 
+                  { 
+                     "name" : "Lips bottom split", 
+                     "value" : "0.02593"
+                  }, 
+                  { 
+                     "name" : "Lips bubble bottom", 
+                     "value" : "0.03263"
+                  }, 
+                  { 
+                     "name" : "Lips bubble top", 
+                     "value" : "0.02955"
+                  }, 
+                  { 
+                     "name" : "Lips curves lower", 
+                     "value" : "-0.00537"
+                  }, 
+                  { 
+                     "name" : "Lips curves upper", 
+                     "value" : "0.01388"
+                  }, 
+                  { 
+                     "name" : "Lips shape 1", 
+                     "value" : "-0.07083"
+                  }, 
+                  { 
+                     "name" : "Lips shape 2", 
+                     "value" : "-0.07833"
+                  }, 
+                  { 
+                     "name" : "Lips shape 3", 
+                     "value" : "0.00169"
+                  }, 
+                  { 
+                     "name" : "Lips shape 4", 
+                     "value" : "-0.0044"
+                  }, 
+                  { 
+                     "name" : "Lips small Y", 
+                     "value" : "0.06639"
+                  }, 
+                  { 
+                     "name" : "Lips small Y bottom", 
+                     "value" : "0.06291"
+                  }, 
+                  { 
+                     "name" : "Lips small Y top", 
+                     "value" : "-0.21529"
+                  }, 
+                  { 
+                     "name" : "Mouth arc", 
+                     "value" : "-0.03692"
+                  }, 
+                  { 
+                     "name" : "Mouth big", 
+                     "value" : "-0.05132"
+                  }, 
+                  { 
+                     "name" : "Mouth big X", 
+                     "value" : "0.00838"
+                  }, 
+                  { 
+                     "name" : "Mouth big Y", 
+                     "value" : "-0.04323"
+                  }, 
+                  { 
+                     "name" : "Mouth corner back", 
+                     "value" : "-0.13711"
+                  }, 
+                  { 
+                     "name" : "Mouth corner define", 
+                     "value" : "-0.02741"
+                  }, 
+                  { 
+                     "name" : "Mouth corner up", 
+                     "value" : "-0.03469"
+                  }, 
+                  { 
+                     "name" : "Mouth height", 
+                     "value" : "-0.03861"
+                  }, 
+                  { 
+                     "name" : "Mouth lower to front", 
+                     "value" : "0.02071"
+                  }, 
+                  { 
+                     "name" : "Nose ala relax", 
+                     "value" : "0.00902"
+                  }, 
+                  { 
+                     "name" : "Nose big", 
+                     "value" : "0.09665"
+                  }, 
+                  { 
+                     "name" : "Nose center wide", 
+                     "value" : "-0.08242"
+                  }, 
+                  { 
+                     "name" : "Nose flat", 
+                     "value" : "0.08571"
+                  }, 
+                  { 
+                     "name" : "Nose height", 
+                     "value" : "-0.00734"
+                  }, 
+                  { 
+                     "name" : "Nose ridge deep", 
+                     "value" : "0.05595"
+                  }, 
+                  { 
+                     "name" : "Nose ridge small", 
+                     "value" : "-0.23958"
+                  }, 
+                  { 
+                     "name" : "Nose round", 
+                     "value" : "-0.0744"
+                  }, 
+                  { 
+                     "name" : "Nose tip up", 
+                     "value" : "0.04089"
+                  }, 
+                  { 
+                     "name" : "Nose wide", 
+                     "value" : "-0.11994"
+                  }, 
+                  { 
+                     "name" : "Nostrils flat", 
+                     "value" : "0.00468"
+                  }, 
+                  { 
+                     "name" : "Nostrils turn up", 
+                     "value" : "-0.00035"
+                  }, 
+                  { 
+                     "name" : "Nostrils wide", 
+                     "value" : "-0.00719"
+                  }, 
+                  { 
+                     "name" : "Areola Size", 
+                     "value" : "-0.8435893"
+                  }, 
+                  { 
+                     "name" : "Areola Size X", 
+                     "value" : "-1"
+                  }, 
+                  { 
+                     "name" : "Areola Size Y", 
+                     "value" : "0.6856717"
+                  }, 
+                  { 
+                     "name" : "Breast Large", 
+                     "value" : "0.4425729"
+                  }, 
+                  { 
+                     "name" : "Breast Pointed", 
+                     "value" : "-0.8220955"
+                  }, 
+                  { 
+                     "name" : "Breasts Natural", 
+                     "value" : "0.02371584"
+                  }, 
+                  { 
+                     "name" : "Nipple Diameter", 
+                     "value" : "0.8882135"
+                  }, 
+                  { 
+                     "name" : "Nipple Size", 
+                     "value" : "0.1813496"
+                  }, 
+                  { 
+                     "name" : "Ears Height", 
+                     "value" : "1"
+                  }, 
+                  { 
+                     "name" : "Eyelashes Length", 
+                     "value" : "0.0363055"
+                  }, 
+                  { 
+                     "name" : "Eyelashes Top Point", 
+                     "value" : "0.1809579"
+                  }, 
+                  { 
+                     "name" : "Eyelids Bottom Define", 
+                     "value" : "0.480139"
+                  }, 
+                  { 
+                     "name" : "Eyelids Upper Height", 
+                     "value" : "0.19141"
+                  }, 
+                  { 
+                     "name" : "Eyes Almond Inner", 
+                     "value" : "0.06605"
+                  }, 
+                  { 
+                     "name" : "Eyes Almond Outer", 
+                     "value" : "0.10975"
+                  }, 
+                  { 
+                     "name" : "Eyes Angle", 
+                     "value" : "-0.12813"
+                  }, 
+                  { 
+                     "name" : "Eyes Depth", 
+                     "value" : "0.2538952"
+                  }, 
+                  { 
+                     "name" : "Eyes Height", 
+                     "value" : "-0.03344"
+                  }, 
+                  { 
+                     "name" : "Eyes Height Inner", 
+                     "value" : "-0.36596"
+                  }, 
+                  { 
+                     "name" : "Eyes Height Outer", 
+                     "value" : "0.08955"
+                  }, 
+                  { 
+                     "name" : "Eyes Inner Depth", 
+                     "value" : "0.11578"
+                  }, 
+                  { 
+                     "name" : "Eyes Size", 
+                     "value" : "-0.3097935"
+                  }, 
+                  { 
+                     "name" : "Eyes Width", 
+                     "value" : "-0.16821"
+                  }, 
+                  { 
+                     "name" : "Pupils Dialate", 
+                     "value" : "-0.4715122"
+                  }, 
+                  { 
+                     "name" : "Brow Define", 
+                     "value" : "-0.01491"
+                  }, 
+                  { 
+                     "name" : "Brow Depth", 
+                     "value" : "-0.13859"
+                  }, 
+                  { 
+                     "name" : "Brow Height", 
+                     "value" : "0.01677"
+                  }, 
+                  { 
+                     "name" : "Brow Inner Height", 
+                     "value" : "-0.16381"
+                  }, 
+                  { 
+                     "name" : "Brow Inner Width", 
+                     "value" : "-0.35449"
+                  }, 
+                  { 
+                     "name" : "Brow Outer Height", 
+                     "value" : "-0.5696427"
+                  }, 
+                  { 
+                     "name" : "Brow Shape Inner", 
+                     "value" : "0.24512"
+                  }, 
+                  { 
+                     "name" : "Brow Shape Middle", 
+                     "value" : "-0.05068"
+                  }, 
+                  { 
+                     "name" : "Brow Shape Outer", 
+                     "value" : "0.04637"
+                  }, 
+                  { 
+                     "name" : "Brow Width", 
+                     "value" : "0.09631"
+                  }, 
+                  { 
+                     "name" : "Brows Arch", 
+                     "value" : "0.1103"
+                  }, 
+                  { 
+                     "name" : "Brows Size", 
+                     "value" : "0.00668"
+                  }, 
+                  { 
+                     "name" : "Cheek Bone Define ", 
+                     "value" : "0.02729"
+                  }, 
+                  { 
+                     "name" : "Cheek bones 2", 
+                     "value" : "0.03519"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Arch ", 
+                     "value" : "0.04958"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Height", 
+                     "value" : "-0.05803106"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Round", 
+                     "value" : "0.0348"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Size", 
+                     "value" : "0.04533726"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Width", 
+                     "value" : "-0.00428"
+                  }, 
+                  { 
+                     "name" : "Cheek Jowl", 
+                     "value" : "0.01163"
+                  }, 
+                  { 
+                     "name" : "Cheek Lower Depth", 
+                     "value" : "-0.00433"
+                  }, 
+                  { 
+                     "name" : "Cheek Lower Width", 
+                     "value" : "0.09105"
+                  }, 
+                  { 
+                     "name" : "Cheeks Define", 
+                     "value" : "-0.06652"
+                  }, 
+                  { 
+                     "name" : "Cheeks Depth", 
+                     "value" : "0.08165"
+                  }, 
+                  { 
+                     "name" : "Cheeks Dimple Crease", 
+                     "value" : "0.12528"
+                  }, 
+                  { 
+                     "name" : "Cheeks Inner Puffy", 
+                     "value" : "-0.09678"
+                  }, 
+                  { 
+                     "name" : "Cheeks Sink", 
+                     "value" : "-0.09608"
+                  }, 
+                  { 
+                     "name" : "Cheeks Sink Lower", 
+                     "value" : "0.11839"
+                  }, 
+                  { 
+                     "name" : "Chin Cleft", 
+                     "value" : "0.20619"
+                  }, 
+                  { 
+                     "name" : "Chin Crease", 
+                     "value" : "0.13354"
+                  }, 
+                  { 
+                     "name" : "Chin Crease Smooth", 
+                     "value" : "0.27688"
+                  }, 
+                  { 
+                     "name" : "Chin Depth", 
+                     "value" : "1.382828E-05"
+                  }, 
+                  { 
+                     "name" : "Chin Height", 
+                     "value" : "0.09023"
+                  }, 
+                  { 
+                     "name" : "Chin Round", 
+                     "value" : "0.04249"
+                  }, 
+                  { 
+                     "name" : "Chin Width", 
+                     "value" : "0.11875"
+                  }, 
+                  { 
+                     "name" : "Chin Width 2", 
+                     "value" : "0.05513"
+                  }, 
+                  { 
+                     "name" : "Cranium Slope", 
+                     "value" : "0.06781"
+                  }, 
+                  { 
+                     "name" : "Eyes Inner Corner Width", 
+                     "value" : "0.03642"
+                  }, 
+                  { 
+                     "name" : "Eyes Lower Shape", 
+                     "value" : "-0.05784"
+                  }, 
+                  { 
+                     "name" : "Eyes Open", 
+                     "value" : "-0.00767"
+                  }, 
+                  { 
+                     "name" : "Eyes Outer Shape", 
+                     "value" : "-0.01832"
+                  }, 
+                  { 
+                     "name" : "Eyes Round", 
+                     "value" : "-0.06688"
+                  }, 
+                  { 
+                     "name" : "Eyes Round Lower", 
+                     "value" : "-0.09649"
+                  }, 
+                  { 
+                     "name" : "Eyes Round Upper", 
+                     "value" : "-0.00382"
+                  }, 
+                  { 
+                     "name" : "Eyes Slant Outer ", 
+                     "value" : "0.0723"
+                  }, 
+                  { 
+                     "name" : "Eyes Upper Shape", 
+                     "value" : "-0.08699"
+                  }, 
+                  { 
+                     "name" : "Face Center Depth", 
+                     "value" : "-0.2199"
+                  }, 
+                  { 
+                     "name" : "Face Depth Lower ", 
+                     "value" : "-0.07787"
+                  }, 
+                  { 
+                     "name" : "Face Flat", 
+                     "value" : "-0.00336"
+                  }, 
+                  { 
+                     "name" : "Face Heart", 
+                     "value" : "-0.07016"
+                  }, 
+                  { 
+                     "name" : "Face Height", 
+                     "value" : "0.04171"
+                  }, 
+                  { 
+                     "name" : "Face Round", 
+                     "value" : "-0.13927"
+                  }, 
+                  { 
+                     "name" : "Face Square", 
+                     "value" : "-0.02291"
+                  }, 
+                  { 
+                     "name" : "Face Young", 
+                     "value" : "0.12425"
+                  }, 
+                  { 
+                     "name" : "Forehead Define", 
+                     "value" : "-0.05997"
+                  }, 
+                  { 
+                     "name" : "Forehead Flat", 
+                     "value" : "0.24865"
+                  }, 
+                  { 
+                     "name" : "Forehead Round", 
+                     "value" : "0.04274"
+                  }, 
+                  { 
+                     "name" : "Forehead Width", 
+                     "value" : "-0.03658"
+                  }, 
+                  { 
+                     "name" : "Jaw Angle", 
+                     "value" : "0.16175"
+                  }, 
+                  { 
+                     "name" : "Jaw Chin Shape", 
+                     "value" : "0.03468"
+                  }, 
+                  { 
+                     "name" : "Jaw Corner Height", 
+                     "value" : "-0.00449"
+                  }, 
+                  { 
+                     "name" : "Jaw Corner Width", 
+                     "value" : "0.0397"
+                  }, 
+                  { 
+                     "name" : "Jaw Curve", 
+                     "value" : "0.11154"
+                  }, 
+                  { 
+                     "name" : "Jaw Define", 
+                     "value" : "0.06035"
+                  }, 
+                  { 
+                     "name" : "Jaw Height", 
+                     "value" : "-0.03312"
+                  }, 
+                  { 
+                     "name" : "Jaw Line Depth", 
+                     "value" : "-0.14066"
+                  }, 
+                  { 
+                     "name" : "Jaw Size", 
+                     "value" : "-0.1028"
+                  }, 
+                  { 
+                     "name" : "Jaw Square", 
+                     "value" : "0.09342"
+                  }, 
+                  { 
+                     "name" : "Mouth Corner Height", 
+                     "value" : "-0.07193"
+                  }, 
+                  { 
+                     "name" : "Mouth Corner Width", 
+                     "value" : "0.0392"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Curve", 
+                     "value" : "-0.03333"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Lower Width ", 
+                     "value" : "0.03451"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Middle Width", 
+                     "value" : "0.08980227"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Middlle Depth", 
+                     "value" : "-0.01557"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Root Width", 
+                     "value" : "-0.00853"
+                  }, 
+                  { 
+                     "name" : "Nose Septum Shape", 
+                     "value" : "0.02612"
+                  }, 
+                  { 
+                     "name" : "Nose Tilt", 
+                     "value" : "0.04356"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Bottom Shape", 
+                     "value" : "0.24371"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Upper Shape ", 
+                     "value" : "-0.01439"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Width Lower", 
+                     "value" : "-0.0164"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Width Upper", 
+                     "value" : "-0.01769"
+                  }, 
+                  { 
+                     "name" : "Nostrils Flare", 
+                     "value" : "-0.03897"
+                  }, 
+                  { 
+                     "name" : "Nostrils Inner Height", 
+                     "value" : "-0.01799"
+                  }, 
+                  { 
+                     "name" : "Nostrils Rotation", 
+                     "value" : "0.06077"
+                  }, 
+                  { 
+                     "name" : "Nostrils Shape Bottom", 
+                     "value" : "-0.08753"
+                  }, 
+                  { 
+                     "name" : "Nostrils Shape Height", 
+                     "value" : "0.11082"
+                  }, 
+                  { 
+                     "name" : "Nostrils Shape Top", 
+                     "value" : "0.03789"
+                  }, 
+                  { 
+                     "name" : "Temples Define", 
+                     "value" : "0.21638"
+                  }, 
+                  { 
+                     "name" : "Labia majora-relaxation", 
+                     "value" : "0.5"
+                  }, 
+                  { 
+                     "name" : "Aiko 6 Head", 
+                     "value" : "0.04655"
+                  }, 
+                  { 
+                     "name" : "Cranium Height", 
+                     "value" : "0.27514"
+                  }, 
+                  { 
+                     "name" : "Cranium Width", 
+                     "value" : "0.20868"
+                  }, 
+                  { 
+                     "name" : "Danika Head", 
+                     "value" : "0.14636"
+                  }, 
+                  { 
+                     "name" : "Kori Head", 
+                     "value" : "0.09751"
+                  }, 
+                  { 
+                     "name" : "Mei Lin 6 Head", 
+                     "value" : "0.0128275"
+                  }, 
+                  { 
+                     "name" : "Monique 6 Head", 
+                     "value" : "0.14264"
+                  }, 
+                  { 
+                     "name" : "Stephanie 6 Head", 
+                     "value" : "0.02059"
+                  }, 
+                  { 
+                     "name" : "Sumiko Head", 
+                     "value" : "0.03665"
+                  }, 
+                  { 
+                     "name" : "Victoria 6 Head", 
+                     "value" : "0.02012"
+                  }, 
+                  { 
+                     "name" : "Hip Shape1", 
+                     "value" : "-0.6985127"
+                  }, 
+                  { 
+                     "name" : "Thighs Size", 
+                     "value" : "0.3807946"
+                  }, 
+                  { 
+                     "name" : "Lip Lower Depth", 
+                     "value" : "0.11621"
+                  }, 
+                  { 
+                     "name" : "Lip Lower Size", 
+                     "value" : "-0.1802"
+                  }, 
+                  { 
+                     "name" : "Lip Lower Width", 
+                     "value" : "0.2811019"
+                  }, 
+                  { 
+                     "name" : "Lip Top Peak", 
+                     "value" : "-0.03992"
+                  }, 
+                  { 
+                     "name" : "Lip Upper Curves", 
+                     "value" : "0.3840259"
+                  }, 
+                  { 
+                     "name" : "Lip Upper Depth", 
+                     "value" : "0.17574"
+                  }, 
+                  { 
+                     "name" : "Lip Upper Size", 
+                     "value" : "-0.08549"
+                  }, 
+                  { 
+                     "name" : "Lips Bottom Full", 
+                     "value" : "0.10019"
+                  }, 
+                  { 
+                     "name" : "Lips Bottom Shape ", 
+                     "value" : "0.3324819"
+                  }, 
+                  { 
+                     "name" : "Lips Bottom Small", 
+                     "value" : "-0.05067"
+                  }, 
+                  { 
+                     "name" : "Lips Bow Height", 
+                     "value" : "-0.06586"
+                  }, 
+                  { 
+                     "name" : "Lips Bow Shape", 
+                     "value" : "0.08069"
+                  }, 
+                  { 
+                     "name" : "Lips Edge Define", 
+                     "value" : "0.03526"
+                  }, 
+                  { 
+                     "name" : "Lips Heart", 
+                     "value" : "0.7442433"
+                  }, 
+                  { 
+                     "name" : "Lips Square", 
+                     "value" : "0.09718"
+                  }, 
+                  { 
+                     "name" : "Lips Thin", 
+                     "value" : "0.04545"
+                  }, 
+                  { 
+                     "name" : "Lips Top Full", 
+                     "value" : "0.05131"
+                  }, 
+                  { 
+                     "name" : "LIps Top Width", 
+                     "value" : "-0.03592"
+                  }, 
+                  { 
+                     "name" : "Lips Upper Curves  Round", 
+                     "value" : "0.01176"
+                  }, 
+                  { 
+                     "name" : "Lips Upper Curves Corner", 
+                     "value" : "-0.10469"
+                  }, 
+                  { 
+                     "name" : "Mouth Corner Depth", 
+                     "value" : "0.08025"
+                  }, 
+                  { 
+                     "name" : "Mouth corner width", 
+                     "value" : "-0.04898"
+                  }, 
+                  { 
+                     "name" : "Mouth Curves", 
+                     "value" : "0.11044"
+                  }, 
+                  { 
+                     "name" : "Mouth Curves  Arch", 
+                     "value" : "0.01425"
+                  }, 
+                  { 
+                     "name" : "Mouth Curves Corner", 
+                     "value" : "-0.07754"
+                  }, 
+                  { 
+                     "name" : "Mouth Depth", 
+                     "value" : "-0.03612"
+                  }, 
+                  { 
+                     "name" : "Mouth Height", 
+                     "value" : "0.3366234"
+                  }, 
+                  { 
+                     "name" : "Mouth Marionette lines", 
+                     "value" : "0.13442"
+                  }, 
+                  { 
+                     "name" : "Mouth relax bottom", 
+                     "value" : "0.01715"
+                  }, 
+                  { 
+                     "name" : "Mouth relax top", 
+                     "value" : "0.00315"
+                  }, 
+                  { 
+                     "name" : "Mouth Size", 
+                     "value" : "-0.1352066"
+                  }, 
+                  { 
+                     "name" : "Mouth upper to front", 
+                     "value" : "-0.01186"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Depth", 
+                     "value" : "-0.16873"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Height", 
+                     "value" : "0.21235"
+                  }, 
+                  { 
+                     "name" : "Nose Bridge Width", 
+                     "value" : "-0.1601432"
+                  }, 
+                  { 
+                     "name" : "Nose Bump", 
+                     "value" : "0.18389"
+                  }, 
+                  { 
+                     "name" : "Nose Depth", 
+                     "value" : "-0.00807"
+                  }, 
+                  { 
+                     "name" : "Nose Flesh Size", 
+                     "value" : "-0.02197"
+                  }, 
+                  { 
+                     "name" : "Nose Height", 
+                     "value" : "0.3691419"
+                  }, 
+                  { 
+                     "name" : "Nose Pinch", 
+                     "value" : "-0.02162044"
+                  }, 
+                  { 
+                     "name" : "Nose Ridge", 
+                     "value" : "0.00168"
+                  }, 
+                  { 
+                     "name" : "Nose ridge round", 
+                     "value" : "0.12634"
+                  }, 
+                  { 
+                     "name" : "Nose Ridge Width", 
+                     "value" : "-0.01456"
+                  }, 
+                  { 
+                     "name" : "Nose Septum Depth", 
+                     "value" : "0.07946"
+                  }, 
+                  { 
+                     "name" : "Nose Septum Height", 
+                     "value" : "-0.05628"
+                  }, 
+                  { 
+                     "name" : "Nose Septum Width", 
+                     "value" : "0.0508"
+                  }, 
+                  { 
+                     "name" : "Nose Size", 
+                     "value" : "-0.03957"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Depth", 
+                     "value" : "0.3494993"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Height", 
+                     "value" : "0.100549"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Round", 
+                     "value" : "-0.11342"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Width", 
+                     "value" : "0.00988"
+                  }, 
+                  { 
+                     "name" : "Nose Width", 
+                     "value" : "0.0762"
+                  }, 
+                  { 
+                     "name" : "Nostrils Depth", 
+                     "value" : "-0.09189"
+                  }, 
+                  { 
+                     "name" : "Nostrils Flesh Size", 
+                     "value" : "0.3779838"
+                  }, 
+                  { 
+                     "name" : "Nostrils Height", 
+                     "value" : "-0.1799065"
+                  }, 
+                  { 
+                     "name" : "Nostrils Width", 
+                     "value" : "-0.09505"
+                  }, 
+                  { 
+                     "name" : "Philtrum Angle", 
+                     "value" : "0.05821"
+                  }, 
+                  { 
+                     "name" : "Philtrum Depth", 
+                     "value" : "0.16549"
+                  }, 
+                  { 
+                     "name" : "Philtrum Width", 
+                     "value" : "0.12253"
+                  }, 
+                  { 
+                     "name" : "Stomach Shape 1", 
+                     "value" : "-0.2511975"
+                  }, 
+                  { 
+                     "name" : "Waist Narrow Lower", 
+                     "value" : "-0.4204558"
+                  }
+               ]
+            }, 
+            { 
+               "id" : "AutoExpressions", 
+               "enabled" : "false"
+            }, 
+            { 
+               "id" : "BreastPhysicsMesh", 
+               "softVerticesColliderRadius" : "0.03338377"
+            }, 
+            { 
+               "id" : "irises", 
+               "Irises" : "Color 50"
+            }, 
+            { 
+               "id" : "HeadAudioSource", 
+               "trigger" : { 
+                  "startActions" : [ 
+                  ], 
+                  "transitionActions" : [ 
+                  ], 
+                  "endActions" : [ 
+                  ]
+               }
+            }, 
+            { 
+               "id" : "Sim2HairScalp", 
+               "choiceName" : "ChaceScalp"
+            }, 
+            { 
+               "id" : "Sim2HairMaterialScalpChace", 
+               "Alpha Adjust" : "-0.1805384", 
+               "Diffuse Color" : { 
+                  "h" : "0.1431542", 
+                  "s" : "0.3766596", 
+                  "v" : "0.9398985"
+               }, 
+               "Specular Color" : { 
+                  "h" : "0.09981932", 
+                  "s" : "0.8630021", 
+                  "v" : "0.8835747"
+               }
+            }, 
+            { 
+               "id" : "Sim2HairMaterialScalpKrayon", 
+               "Diffuse Color" : { 
+                  "h" : "0.1386659", 
+                  "s" : "0.4353302", 
+                  "v" : "0.681697"
+               }, 
+               "Specular Color" : { 
+                  "h" : "0.1386659", 
+                  "s" : "0.4353302", 
+                  "v" : "0.681697"
+               }
+            }, 
+            { 
+               "id" : "Sim2HairMaterialScalpOmri", 
+               "Diffuse Color" : { 
+                  "h" : "0.1386659", 
+                  "s" : "0.4353302", 
+                  "v" : "0.681697"
+               }, 
+               "Specular Color" : { 
+                  "h" : "0.1386659", 
+                  "s" : "0.4353302", 
+                  "v" : "0.681697"
+               }
+            }, 
+            { 
+               "id" : "Sim2HairTransformControl", 
+               "yPosition" : "0.008663488", 
+               "xRotation" : "8.94639", 
+               "xScale" : "0.7725152", 
+               "zScale" : "0.6558133"
+            }, 
+            { 
+               "id" : "Sim2HairStyle", 
+               "choiceName" : "Long+Curls"
+            }, 
+            { 
+               "id" : "HairSimLongStraight", 
+               "rootColor" : { 
+                  "h" : "0.1270474", 
+                  "s" : "0.4827689", 
+                  "v" : "0.490488"
+               }, 
+               "tipColor" : { 
+                  "h" : "0.168597", 
+                  "s" : "0.2616998", 
+                  "v" : "0.83248"
+               }, 
+               "specularColor" : { 
+                  "h" : "0", 
+                  "s" : "0", 
+                  "v" : "0"
+               }
+            }, 
+            { 
+               "id" : "HairSimLongCurls", 
+               "rigidityRolloffPower" : "0.262408", 
+               "friction" : "0", 
+               "gravityMultiplier" : "1.884522", 
+               "cling" : "0", 
+               "snap" : "0", 
+               "colorRolloff" : "1.768054", 
+               "curlScale" : "0.3599743", 
+               "curlFrequency" : "8.588861", 
+               "length1" : "0.7142118", 
+               "length2" : "0.7917644", 
+               "length3" : "0.8054707", 
+               "rootColor" : { 
+                  "h" : "0.1060899", 
+                  "s" : "0.5446557", 
+                  "v" : "0.4624996"
+               }, 
+               "tipColor" : { 
+                  "h" : "0.09863419", 
+                  "s" : "0.5712233", 
+                  "v" : "1"
+               }, 
+               "specularColor" : { 
+                  "h" : "0.1251863", 
+                  "s" : "0", 
+                  "v" : "0"
+               }
+            }, 
+            { 
+               "id" : "skin", 
+               "Subsurface Color" : { 
+                  "h" : "0.06976748", 
+                  "s" : "0.1578708", 
+                  "v" : "1"
+               }
+            }, 
+            { 
+               "id" : "textures", 
+               "autoBlendGenitalTextures" : "true", 
+               "faceDiffuseUrl" : "./Katie/Katie_face.jpg", 
+               "torsoDiffuseUrl" : "./Katie/Katie_torso.jpg", 
+               "limbsDiffuseUrl" : "./Katie/Katie_limbs.jpg", 
+               "faceSpecularUrl" : "./Katie/FaceS.jpg", 
+               "torsoSpecularUrl" : "./Katie/TorsoS.jpg", 
+               "limbsSpecularUrl" : "./Katie/LimbsS.jpg", 
+               "genitalsSpecularUrl" : "./Katie/genitalsS.jpg", 
+               "faceGlossUrl" : "./Katie/FaceG.jpg", 
+               "torsoGlossUrl" : "./Katie/TorsoG.jpg", 
+               "limbsGlossUrl" : "./Katie/LimbsG.jpg"
+            }
+         ]
+      }
+   ]
+}

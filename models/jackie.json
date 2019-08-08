@@ -1,0 +1,291 @@
+{ 
+   "atoms" : [ 
+      { 
+         "id" : "Person#2", 
+         "type" : "Person", 
+         "storables" : [ 
+            { 
+               "id" : "geometry", 
+               "character" : "Female 3", 
+               "clothing" : [ 
+                  { 
+                     "name" : "Fancy Panties", 
+                     "enabled" : "true"
+                  }, 
+                  { 
+                     "name" : "Fancy Bra", 
+                     "enabled" : "true"
+                  }, 
+                  { 
+                     "name" : "Stockings", 
+                     "enabled" : "true"
+                  }, 
+                  { 
+                     "name" : "Glasses", 
+                     "enabled" : "true"
+                  }
+               ], 
+               "hair" : "Ponytail", 
+               "morphs" : [ 
+                  { 
+                     "name" : "Pear Figure", 
+                     "value" : "0.2443077"
+                  }, 
+                  { 
+                     "name" : "Areolae Depth", 
+                     "value" : "0.5495614"
+                  }, 
+                  { 
+                     "name" : "Areolae Diameter", 
+                     "value" : "0.5581502"
+                  }, 
+                  { 
+                     "name" : "Areolae Perk", 
+                     "value" : "0.2963517"
+                  }, 
+                  { 
+                     "name" : "Breasts Diameter", 
+                     "value" : "0.6765987"
+                  }, 
+                  { 
+                     "name" : "Breasts Downward Slope", 
+                     "value" : "0.3595608"
+                  }, 
+                  { 
+                     "name" : "Breasts Heavy", 
+                     "value" : "0.003611061"
+                  }, 
+                  { 
+                     "name" : "Breasts Implants", 
+                     "value" : "0.4927882"
+                  }, 
+                  { 
+                     "name" : "Breasts Natural", 
+                     "value" : "0.02238457"
+                  }, 
+                  { 
+                     "name" : "Breasts Perk Side", 
+                     "value" : "0.06367341"
+                  }, 
+                  { 
+                     "name" : "Breasts Size", 
+                     "value" : "0.2513977"
+                  }, 
+                  { 
+                     "name" : "Breasts Small", 
+                     "value" : "0.5553579"
+                  }, 
+                  { 
+                     "name" : "Nipples Depth", 
+                     "value" : "0.1934959"
+                  }, 
+                  { 
+                     "name" : "Nipples Diameter", 
+                     "value" : "-0.5"
+                  }, 
+                  { 
+                     "name" : "Nipples Large", 
+                     "value" : "0.1503072"
+                  }, 
+                  { 
+                     "name" : "Nipples Size", 
+                     "value" : "0.0222215"
+                  }, 
+                  { 
+                     "name" : "Sternum Depth", 
+                     "value" : "0.3480752"
+                  }, 
+                  { 
+                     "name" : "Sternum Height", 
+                     "value" : "0.1665257"
+                  }, 
+                  { 
+                     "name" : "Eyelashes Curl", 
+                     "value" : "1"
+                  }, 
+                  { 
+                     "name" : "Eyes Almond Inner", 
+                     "value" : "0.09810667"
+                  }, 
+                  { 
+                     "name" : "Pupils Dialate", 
+                     "value" : "-0.9518944"
+                  }, 
+                  { 
+                     "name" : "Teen Josie Lashes", 
+                     "value" : "0.5285645"
+                  }, 
+                  { 
+                     "name" : "Cheek Bones Width", 
+                     "value" : "0.1948256"
+                  }, 
+                  { 
+                     "name" : "Cheeks Sink", 
+                     "value" : "0.1987399"
+                  }, 
+                  { 
+                     "name" : "Chin Depth", 
+                     "value" : "0.693774"
+                  }, 
+                  { 
+                     "name" : "Cranium Slope", 
+                     "value" : "-1"
+                  }, 
+                  { 
+                     "name" : "Face Center Depth", 
+                     "value" : "-0.2709426"
+                  }, 
+                  { 
+                     "name" : "Forehead Flat", 
+                     "value" : "1"
+                  }, 
+                  { 
+                     "name" : "Temples Define", 
+                     "value" : "0.3667706"
+                  }, 
+                  { 
+                     "name" : "Clitoris-size", 
+                     "value" : "-0.03559899"
+                  }, 
+                  { 
+                     "name" : "Genitals-extreme expansion", 
+                     "value" : "0.07164321"
+                  }, 
+                  { 
+                     "name" : "Labia majora-relaxation", 
+                     "value" : "0.6276052"
+                  }, 
+                  { 
+                     "name" : "Labia majora-spread-LLow", 
+                     "value" : "0.2711861"
+                  }, 
+                  { 
+                     "name" : "Victoria 6 Head", 
+                     "value" : "0.006412099"
+                  }, 
+                  { 
+                     "name" : "Glutes Size", 
+                     "value" : "0.2067889"
+                  }, 
+                  { 
+                     "name" : "Glutes Width", 
+                     "value" : "0.4099314"
+                  }, 
+                  { 
+                     "name" : "Hip Size", 
+                     "value" : "0.2275431"
+                  }, 
+                  { 
+                     "name" : "Thighs Size", 
+                     "value" : "0.2083677"
+                  }, 
+                  { 
+                     "name" : "Thighs Tone", 
+                     "value" : "0.6068961"
+                  }, 
+                  { 
+                     "name" : "Nose Flesh Size", 
+                     "value" : "-0.5"
+                  }, 
+                  { 
+                     "name" : "Nose Side-Side", 
+                     "value" : "-0.672264"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Depth", 
+                     "value" : "-0.75"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Height", 
+                     "value" : "0.5285321"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Round", 
+                     "value" : "0.538285"
+                  }, 
+                  { 
+                     "name" : "Nose Tip Width", 
+                     "value" : "0.4795053"
+                  }, 
+                  { 
+                     "name" : "Nostrils Height", 
+                     "value" : "0.2828348"
+                  }, 
+                  { 
+                     "name" : "Love Handles", 
+                     "value" : "-0.003180146"
+                  }, 
+                  { 
+                     "name" : "Navel", 
+                     "value" : "0.9840986"
+                  }, 
+                  { 
+                     "name" : "Navel Depth", 
+                     "value" : "0.05918556"
+                  }, 
+                  { 
+                     "name" : "Navel Hollow", 
+                     "value" : "0.4672145"
+                  }, 
+                  { 
+                     "name" : "Navel Horizontal", 
+                     "value" : "0.4422489"
+                  }, 
+                  { 
+                     "name" : "Navel Size", 
+                     "value" : "-0.05572779"
+                  }, 
+                  { 
+                     "name" : "Navel Vertical", 
+                     "value" : "0.07405083"
+                  }, 
+                  { 
+                     "name" : "Stomach Soften", 
+                     "value" : "-0.02363659"
+                  }, 
+                  { 
+                     "name" : "Waist Narrow Lower", 
+                     "value" : "-0.06727535"
+                  }, 
+                  { 
+                     "name" : "Waist Narrow Upper", 
+                     "value" : "-0.2150906"
+                  }, 
+                  { 
+                     "name" : "Waist Width", 
+                     "value" : "-0.01830596"
+                  }
+               ]
+            }, 
+            { 
+               "id" : "irises", 
+               "Irises" : "Color 21"
+            }, 
+            { 
+               "id" : "BreastPhysicsMesh", 
+               "softVerticesColliderRadius" : "0.05"
+            }, 
+            { 
+               "id" : "skin", 
+               "Specular Boost" : "0.06370289", 
+               "Gloss Boost" : "0.2467161", 
+               "Skin Color" : { 
+                  "h" : "0", 
+                  "s" : "0", 
+                  "v" : "1"
+               }, 
+               "Specular Color" : { 
+                  "h" : "0.06201547", 
+                  "s" : "0.1102941", 
+                  "v" : "1"
+               }, 
+               "Subsurface Color" : { 
+                  "h" : "0.06976748", 
+                  "s" : "0.1869566", 
+                  "v" : "0.9019608"
+               }
+            }
+         ]
+      }
+   ]
+}

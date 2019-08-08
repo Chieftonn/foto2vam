@@ -1,2 +1,10 @@
 *.pyc
 Sample/Results
+
+/input/
+/input_bak/
+
+/models/**/*.model
+.vscode
+/Output*
+/Sample/default.json

@@ -1,0 +1,1 @@
+@cuda10 && activate && activate foto2vam

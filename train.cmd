@@ -1,0 +1,1 @@
+python TrainSelf.py --configFile models\arijoon.json --seedImagePath models\arijoon_1\seed_images --tmpDir L:\ --seedJsonPath models\arijoon_1\seed_looks --trainingDataCache "H:\Games\VAM\foto2vam-source\arijoon.cache"

@@ -4,7 +4,7 @@ Sample/Results
 /input/
 /input_bak/
 
-/models/**/*.model
+/models
 .vscode
 /Output*
 /Sample/default.json

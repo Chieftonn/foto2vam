@@ -13,30 +13,26 @@ using UnityEngine;
 
 namespace VamMod
 {
-  public class Foto2VamPlugin : MVRScript {
-    Foto2VamServer server = null;
-
-    void Start() {
-      if (server == null) {
-        server = new Foto2VamServer();
-      }
-    }
-
-    void OnDestroy() {
-      server = null;
-    }
-
-  }
-
 	public class Foto2VamServer
 	{
 		~Foto2VamServer()
 		{
-			this._exitThread = true;
-			this._event.Set();
-			UnityEngine.Object.Destroy(this._imageMaker);
-			this._thread.Join();
+      this.Stop();
 		}
+
+    public void Stop()
+    {
+      Debug.Log("Stopping Foto2VamServer");
+      this._exitThread = true;
+      this._event.Set();
+      UnityEngine.Object.Destroy(this._imageMaker);
+      this._thread.Join();
+      if (this._thread.IsAlive)
+      {
+        this._thread.Abort();
+      }
+      Debug.Log("Stopped Foto2VamServer");
+    }
 
 		private void HandleTakeScreenshot(JSONNode aJsonNode)
 		{
@@ -74,6 +70,7 @@ namespace VamMod
 
 		public Foto2VamServer()
 		{
+      Debug.Log("Creating Foto2VamServer");
 			this._pipeServer = new PipeServer();
 			this._pipeServer.RegisterHandler("screenshot", new Action<JSONNode>(this.HandleTakeScreenshot));
 			this._imageMaker = new GameObject().AddComponent<ImageMaker>();
@@ -83,6 +80,7 @@ namespace VamMod
 			this._lock = new object();
 			this._exitThread = false;
 			this._thread.Start();
+      Debug.Log("Foto2VamServer Created");
 		}
 
 		private void Enqueue(Action aAction)

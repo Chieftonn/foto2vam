@@ -6,7 +6,7 @@ This is a fork of [https://github.com/ChrisTopherTa54321/foto2vam](https://githu
 
 In order to train you need to run modded VaM and use `Tools/TrainSelf.py` to communicate with VaM. In order to run this 
 successfully you must first modify the main game assembly to get past scripting limitations. Using dnSpy or a similar
-program add the following class to your main assembly `Assembly-CSharp`: [VamMod](Utils/VamMod/ClassLibrary1/VaMMod.cs)
+program add the following class to your main assembly `Assembly-CSharp`: [VamMod](Utils/VamMod/ClassLibrary1/VamMod.cs)
 
 ![DnSpy add class](docs/images/dnSpy_addClass.jpg)
 

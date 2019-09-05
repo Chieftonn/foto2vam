@@ -134,7 +134,7 @@ class VamWindow:
             return
 
 
-    def loadLook(self, jsonPath, angles = [0]):
+    def loadLook(self, jsonPath, angles = [0, 35]): # added angle 35 as well
         if self._pipe is not None:
             self.loadLookPipe( jsonPath, self._pipe, angles )
         else:

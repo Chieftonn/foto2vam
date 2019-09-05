@@ -15,8 +15,12 @@ Paste the content in there, press `Compile` then `File -> Save Module`.
 Now you can launch the game. Once the default scene is loaded, go to Edit mode, and in scene scripts, add [VamPlugin](Utils/VamMod/ClassLibrary1/VamPlugin.cs)
 to the scene. There is no UI, you can check the logs to confirm it is working:
 
-```
+```logs
+Creating Foto2VamServer
+ 
+(Filename: C:\buildslave\unity\build\Runtime/Export/Debug.bindings.h Line: 43)
 
+Foto2VamServer Created
 ```
 
 Once VaM is ready, you can run the self trainer. Make sure you have setup the correct python path (use conda environments)

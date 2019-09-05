@@ -25,6 +25,11 @@ class ParamGenerator:
                              "nose_height_width_ratio": self._nose_height_width_ratio_params,
                              "brow_height_width_ratio": self._brow_height_width_ratio_params,
                              "brow_chin_ratio": self._brow_chin_ratio_params,
+                             "eye_nose_ratio": self._eye_nose_ratio_params,
+                             "lip_height_width_ratio": self._lip_height_width_ratio_params,
+                             "lip_height_ratio": self._lip_height_ratio_params,
+                             "nose_chin_ratio": self._nose_chin_ratio_params,
+                             "nose_mouth_ratio": self._nose_mouth_ratio_params,
                              "custom_action": self._custom_action  }
 
         for angle in self._angles:
@@ -104,15 +109,17 @@ class ParamGenerator:
         averages = self._getAverages( params )
         return [( averages["left_eye"][1] + averages["right_eye"][1] ) / ( averages["left_eye"][0] + averages["right_eye"][0] )]
 
+    def _eye_nose_ratio_params(self, params):
+        averages = self._getAverages( params )
+        return [( averages["left_eye"][0] + averages["right_eye"][0] ) / ( averages["nose_tip"][0] )]
+
     def _mouth_chin_ratio_params(self, params):
         averages = self._getAverages( params )
         return [averages["top_lip"][0] / averages["chin"][0]]
 
-
     def _nose_height_width_ratio_params(self, params):
         averages = self._getAverages( params )
         return [averages["nose_bridge"][1] / averages["nose_tip"][0]]
-
 
     def _brow_height_width_ratio_params(self, params):
         averages = self._getAverages( params )
@@ -121,6 +128,22 @@ class ParamGenerator:
     def _brow_chin_ratio_params(self, params):
         averages = self._getAverages( params )
         return [( averages["left_eyebrow"][0] + averages["right_eyebrow"][0] ) / ( averages["chin"][0]) ]
+
+    def _lip_height_width_ratio_params(self, params):
+        averages = self._getAverages( params )
+        return [(averages["top_lip"][0] + averages["bottom_lip"][0]) / ( averages["top_lip"][1] + averages["bottom_lip"][1] )]
+
+    def _lip_height_ratio_params(self, params):
+        averages = self._getAverages( params )
+        return [averages["top_lip"][1] / averages["bottom_lip"][1]]
+
+    def _nose_chin_ratio_params(self, params):
+        averages = self._getAverages( params )
+        return [averages["nose_tip"][0] / averages["chin"][0]]
+
+    def _nose_mouth_ratio_params(self, params):
+        averages = self._getAverages( params )
+        return [averages["nose_tip"][0] / averages["top_lip"][0]]
 
 
     @staticmethod

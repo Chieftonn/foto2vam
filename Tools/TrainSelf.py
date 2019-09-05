@@ -16,6 +16,9 @@ import tqdm
 from win32api import GetKeyState
 from win32con import VK_SCROLL, VK_CAPITAL
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
 NORMALIZE_SIZE=150
 
 ###############################
@@ -45,9 +48,11 @@ def main( args ):
 
     print("Creating initial encodings...")
     if args.seedImagePath is None:
+        logging.warn("No seed images found")
         initialEncodings = []
     else:
         initialEncodings = getEncodingsFromPaths( [args.seedImagePath], recursive=True, cache=True)
+        logging.info(f'Setup {len(initialEncodings)} encodings')
 
     config = Config.createFromFile(args.configFile)
     # Try encodings until one succeeds
@@ -142,8 +147,8 @@ def main( args ):
     # Wait for children to finish
     doneEvent.set()
 
-#     for proc in procs:
-#         proc.join()
+    #     for proc in procs:
+    #         proc.join()
     # Join isn't working right
     for exitEvent in safeToExitEvents:
         exitEvent.wait()
@@ -326,6 +331,7 @@ def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, ex
             while GetKeyState(VK_CAPITAL):
                 time.sleep(1)
             params = inputQueue.get(block=True, timeout=1)
+            # logging.info("Got morph2image item")
             morphs = params[inputCnt:]
             vamFace.importFloatList(morphs)
 
@@ -335,6 +341,7 @@ def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, ex
             vamWindow.loadLook( jsonFile, config.getAngles() )
             vamWindow.syncPipe( vamWindow._pipe )
             outputQueue.put( tmpdir )
+            # logging.info("put image2encoding item")
 
         except queue.Empty:
             pass
@@ -356,6 +363,7 @@ def image_to_encoding_proc( config, batchSize, inputQueue, outputQueue, training
         submitWork = False
         try:
             work = inputQueue.get(block=True, timeout=1)
+            # logging.info("Got image2encoding item")
             pathList.append( work )
             submitWork = len(pathList) >= batchSize
         except queue.Empty:
@@ -374,6 +382,7 @@ def image_to_encoding_proc( config, batchSize, inputQueue, outputQueue, training
                         trainingCacheQueue.put( ( data[1], params[inputCnt:] ) )
                         # Send it off to the neural net training
                         outputQueue.put( ( params_valid, params ) )
+                        # logging.info("put encoding2morph")
                     except Exception as e:
                         pass
 
@@ -405,11 +414,11 @@ def validatePerson( encodingList ):
 
 
 def samePerson( encodingList, tolerance=.6 ):
-     for idx,encoding in enumerate(encodingList):
-         for encoding2 in encodingList[idx+1:]:
-             if encoding.compare(encoding2) > tolerance:
-                 return False
-     return True
+    for idx,encoding in enumerate(encodingList):
+        for encoding2 in encodingList[idx+1:]:
+            if encoding.compare(encoding2) > tolerance:
+                return False
+    return True
 
 
 def landmarksValid( encoding ):
@@ -576,6 +585,7 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
     while not doneEvent.is_set():
         try:
             morphsValid, params = inputQueue.get(block=False)
+            # logging.info("Got encoding2morph item")
             inputs = params[:inputCnt]
             outputs = params[inputCnt:]
 
@@ -593,7 +603,7 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
 
             if len(trainingInputs) != lastReEnqueueCnt and len(trainingInputs) % 100 == 0:
                 lastReEnqueueCnt = len(trainingInputs)
-               # Periodically re-enqueue the initial encodings
+                # Periodically re-enqueue the initial encodings
                 for encoding in initialEncodings:
                     try:
                         params = config.generateParams(encoding)
@@ -607,6 +617,7 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
                 predictedOutputs = create_prediction( neuralNet, np.array([inputs]) )
                 predictedParams = inputs + list(predictedOutputs[0])
                 outputQueue.put( predictedParams )
+                # logging.info("put morph2image item")
                 # Queue a random look for every predicted look. Sometimes we get stuck with
                 # only predicted looks filling the queue, and it causes a downward spiral
                 queueRandomOutputParams(config, trainingOutputs, outputQueue)
@@ -718,8 +729,8 @@ def create_neural_net( inputCnt, outputCnt, modelPath ):
 
     optimizer = Adam( lr=0.0001 )
     nn.compile(loss='logcosh',
-            optimizer=optimizer,
-            metrics=['accuracy'])
+               optimizer=optimizer,
+               metrics=['accuracy'])
 
     return nn
 

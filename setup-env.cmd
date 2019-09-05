@@ -1,2 +1,2 @@
-@SET PYTHONPATH=H:\Games\VAM\foto2vam-source;%PYTHONPATH%
+@SET PYTHONPATH=%~dp0;%PYTHONPATH%
 @cuda10 && activate && activate foto2vam

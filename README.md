@@ -2,6 +2,8 @@
 
 This is a fork of [https://github.com/ChrisTopherTa54321/foto2vam](https://github.com/ChrisTopherTa54321/foto2vam)
 
+Splits on commit 047e1d3e9eea07a7664b498cdc26a791381f5891
+
 # Training
 
 In order to train you need to run modded VaM and use `Tools/TrainSelf.py` to communicate with VaM. In order to run this 

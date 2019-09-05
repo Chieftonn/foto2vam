@@ -1,0 +1,23 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Train Self",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/Tools/TrainSelf.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--configFile", "models\\modelB.json",
+        "--outputFile", "models\\modelB.model",
+        "--seedImagePath", "models\\arijoon_1\\seed_images",
+        "--tmpDir", "L:\\",
+        "--seedJsonPath", "models\\arijoon_1\\seed_looks",
+        "--trainingDataCache", "H:\\Games\\VAM\\foto2vam-source\\arijoon.cache"
+      ]
+    }
+  ]
+}

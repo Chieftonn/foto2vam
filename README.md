@@ -14,7 +14,7 @@ program add the following class to your main assembly `Assembly-CSharp`: [VamMod
 
 Paste the content in there, press `Compile` then `File -> Save Module`. 
 
-Now you can launch the game. Once the default scene is loaded, go to Edit mode, and in scene scripts, add [VamPlugin](Utils/VamMod/ClassLibrary1/VamPlugin.cs)
+Now you can launch the game. Once the default scene is loaded, go to Edit mode, and in **session plugins**, add [VamPlugin](Utils/VamMod/ClassLibrary1/VamPlugin.cs)
 to the scene. There is no UI, you can check the logs to confirm it is working:
 
 ```logs

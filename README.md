@@ -37,6 +37,7 @@ The final piece are training arguments. [train.cmd](train.cmd) has the full list
 - tmpDir - a temporary directory to store buffer files, recommended to use a RAMDisk to avoid disk wear and tear
 - seedJsonPath - a directory with a few look jsons, can be any
 - trainingDataCache - name of a cache file to store tmp data during training and be able to resume training
+- pydev - whether to run this with debugging capabilities, only use when debugging in something with pydev support such as pycharm
 
 ## Config file
 The configuration file looks like bellow:

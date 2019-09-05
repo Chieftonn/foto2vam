@@ -8,3 +8,4 @@ Sample/Results
 .vscode
 /Output*
 /Sample/default.json
+*.cache

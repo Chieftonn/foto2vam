@@ -1,0 +1,1 @@
+python scripts\cpy_result.py %*

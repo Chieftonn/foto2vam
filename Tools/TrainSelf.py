@@ -17,16 +17,19 @@ from win32api import GetKeyState
 from win32con import VK_SCROLL, VK_CAPITAL
 
 import logging
+
 logging.basicConfig(level=logging.INFO)
 
-NORMALIZE_SIZE=150
+NORMALIZE_SIZE = 150
+SHOULD_MOD = True
+
 
 ###############################
 # Run the program
 #
-def main( args ):
+def main(args):
     from Utils.Training.config import Config
-    print( "Initializing training...")
+    print("Initializing training...")
     while GetKeyState(VK_SCROLL):
         print("Please turn off scroll lock")
         time.sleep(1)
@@ -39,7 +42,7 @@ def main( args ):
     trainingCacheFile = args.trainingDataCache
     tmpDir = args.tmpDir
     onlySeed = args.onlySeedImages
-
+    trainingHistoryFile = args.trainingHistoryPath
 
     # If not none, the neural net process will generate from the training cache
     nnTrainingCache = None
@@ -51,7 +54,7 @@ def main( args ):
         logging.warn("No seed images found")
         initialEncodings = []
     else:
-        initialEncodings = getEncodingsFromPaths( [args.seedImagePath], recursive=True, cache=True)
+        initialEncodings = getEncodingsFromPaths([args.seedImagePath], recursive=True, cache=True)
         logging.info(f'Setup {len(initialEncodings)} encodings')
 
     config = Config.createFromFile(args.configFile)
@@ -59,7 +62,7 @@ def main( args ):
     initParams = None
     for encoding in initialEncodings:
         try:
-            initParams = config.generateParams( encoding )
+            initParams = config.generateParams(encoding)
             break
         except:
             continue
@@ -82,47 +85,52 @@ def main( args ):
     # Set up worker processes
     procs = []
     safeToExitEvent = multiprocessing.Event()
-    morphs2image = multiprocessing.Process(target=morphs_to_image_proc, args=( config,  morph2imageQueue, image2encodingQueue, tmpDir, doneEvent, safeToExitEvent, args.pydev ) )
+    morphs2image = multiprocessing.Process(target=morphs_to_image_proc, args=(
+    config, morph2imageQueue, image2encodingQueue, tmpDir, doneEvent, safeToExitEvent, args.pydev))
     procs.append(morphs2image)
-    safeToExitEvents.append( safeToExitEvent )
+    safeToExitEvents.append(safeToExitEvent)
 
     safeToExitEvent = multiprocessing.Event()
-    image2encoding = multiprocessing.Process(target=image_to_encoding_proc, args=( config, encBatchSize, image2encodingQueue, encoding2morphQueue, vamFaceQueue, doneEvent, encodingDiedEvent, safeToExitEvent, args.pydev ) )
-    procs.append( image2encoding )
-    safeToExitEvents.append( safeToExitEvent )
+    image2encoding = multiprocessing.Process(target=image_to_encoding_proc, args=(
+    config, encBatchSize, image2encodingQueue, encoding2morphQueue, vamFaceQueue, doneEvent, encodingDiedEvent,
+    safeToExitEvent, args.pydev))
+    procs.append(image2encoding)
+    safeToExitEvents.append(safeToExitEvent)
 
     safeToExitEvent = multiprocessing.Event()
-    neuralnet = multiprocessing.Process(target=neural_net_proc, args=( config, modelFile, trainBatchSize, initialEncodings, nnTrainingCache, encoding2morphQueue, morph2imageQueue, doneEvent, safeToExitEvent, onlySeed, args.pydev ) )
+    neuralnet = multiprocessing.Process(target=neural_net_proc, args=(
+    config, modelFile, trainBatchSize, initialEncodings, nnTrainingCache, encoding2morphQueue, morph2imageQueue,
+    doneEvent, safeToExitEvent, onlySeed, trainingHistoryFile, args.pydev))
     procs.append(neuralnet)
-    safeToExitEvents.append( safeToExitEvent )
+    safeToExitEvents.append(safeToExitEvent)
 
     safeToExitEvent = multiprocessing.Event()
-    trainingDataSaver = multiprocessing.Process( target=save_training_data_proc, args=( config, vamFaceQueue, trainingCacheFile, doneEvent, safeToExitEvent, args.pydev ))
+    trainingDataSaver = multiprocessing.Process(target=save_training_data_proc, args=(
+    config, vamFaceQueue, trainingCacheFile, doneEvent, safeToExitEvent, args.pydev))
     procs.append(trainingDataSaver)
-    safeToExitEvents.append( safeToExitEvent )
+    safeToExitEvents.append(safeToExitEvent)
 
     for proc in procs:
         proc.start()
 
     print("Begin processing!")
 
-    #To kick start the process, feed the neural net the initial params
+    # To kick start the process, feed the neural net the initial params
     for encoding in initialEncodings:
         try:
             params = config.generateParams(encoding)
-            encoding2morphQueue.put( ( False, params ) )
+            encoding2morphQueue.put((False, params))
         except:
             pass
 
     # Any seed json files?
     if args.seedJsonPath:
-        seedLooks = getLooksFromPath( args.seedJsonPath )
+        seedLooks = getLooksFromPath(args.seedJsonPath)
         # Now match morphs and submit
         for look in seedLooks:
-            look.matchMorphs( config.getBaseFace() )
-            if len(look.morphFloats ) == config.getShape()[1]:
-                morph2imageQueue.put( [0]*config.getShape()[0] + look.morphFloats )
-
+            look.matchMorphs(config.getBaseFace())
+            if len(look.morphFloats) == config.getShape()[1]:
+                morph2imageQueue.put([0] * config.getShape()[0] + look.morphFloats)
 
     print("Enable ScrollLock to exit, CapsLock to pause image generation")
     while True:
@@ -134,14 +142,15 @@ def main( args ):
         if not image2encoding.is_alive() or encodingDiedEvent.is_set():
             print("Restarting Image2Encoding process!")
             encodingDiedEvent.clear()
-            procs.remove( image2encoding )
+            procs.remove(image2encoding)
             if image2encoding.is_alive():
                 print("Terminating stuck process..")
                 image2encoding.join(5)
                 image2encoding.terminate()
-            image2encoding = multiprocessing.Process(target=image_to_encoding_proc, args=( config, encBatchSize, image2encodingQueue, encoding2morphQueue, doneEvent, encodingDiedEvent, args.pydev ) )
+            image2encoding = multiprocessing.Process(target=image_to_encoding_proc, args=(
+            config, encBatchSize, image2encodingQueue, encoding2morphQueue, doneEvent, encodingDiedEvent, args.pydev))
             image2encoding.start()
-            procs.append( image2encoding )
+            procs.append(image2encoding)
 
     print("Waiting for processes to exit...")
     # Wait for children to finish
@@ -155,14 +164,15 @@ def main( args ):
 
     print("Exit successful. If you're still stuck here, I don't know why. Just kill me with CTRL+C or CTRL+BREAK.")
 
-def getLooksFromPath( seedJsonPath, recursive = True ):
+
+def getLooksFromPath(seedJsonPath, recursive=True):
     from Utils.Face.vam import VamFace
     lookList = []
     for root, subdirs, files in os.walk(seedJsonPath):
         for file in files:
-            if file.endswith( ( '.json'  ) ):
+            if file.endswith(('.json')):
                 try:
-                    newFace = VamFace( os.path.join(root, file ) )
+                    newFace = VamFace(os.path.join(root, file))
                     lookList.append(newFace)
                 except:
                     pass
@@ -171,44 +181,61 @@ def getLooksFromPath( seedJsonPath, recursive = True ):
 
     return lookList
 
-def getEncodingsFromPaths( imagePaths, recursive = True, cache = False ):
+
+def getEncodingsFromPaths(imagePaths, recursive=True, cache=False):
     # We'll create a flat fileList, and placeholder arrays for the return encodings
     fileList = []
     encodings = []
+    cachedEncodings = []
+    roots = []
+
     for imagePath in imagePaths:
         for root, subdirs, files in os.walk(imagePath):
+            if "all.encoding" in files:
+                cachedEncodings.append(list(readFile(os.path.join(root, "all.encoding"))))
+                if recursive:
+                    continue
+                else:
+                    break
+
             encoding = []
             for file in files:
-                if file.endswith( ( '.png', '.jpg' ) ):
-                    fileList.append( os.path.join( root, file ) )
+                if file.endswith(('.png', '.jpg')):
+                    fileList.append(os.path.join(root, file))
                     encoding.append(None)
             if len(encoding) > 0:
                 encodings.append(encoding)
+                roots.append(root)
             if not recursive:
                 break
 
     # Now batch create the encodings!
     if len(fileList) > 0:
-        batched_encodings = createEncodings( fileList )
+        batched_encodings = createEncodings(fileList)
 
     # Now unflatten the batched encodings
     idx = 0
-    for encoding in encodings:
+    for index, encoding in enumerate(encodings):
         for i in range(len(encoding)):
             encoding[i] = batched_encodings[idx]
             idx += 1
+        if cache:
+            filename = os.path.join(roots[index], "all.encoding")
+            saveFile(filename, encoding)
+
+    encodings.extend(cachedEncodings)
 
     return encodings
 
 
-def createEncodings( fileList ):
+def createEncodings(fileList):
     from PIL import Image
     from Utils.Face.encoded import EncodedFace
 
     imageList = []
     for file in fileList:
-        imageList.append( np.array( Image.open(file) ) )
-    encodedFaces = EncodedFace.batchEncode( imageList, batch_size=64, keepImage = True )
+        imageList.append(np.array(Image.open(file)))
+    encodedFaces = EncodedFace.batchEncode(imageList, batch_size=64, keepImage=True)
 
     return encodedFaces
 
@@ -216,15 +243,15 @@ def createEncodings( fileList ):
 # Previously we've just been saving the training number lists, but
 # if we want to change a parameter we'd have to regenerate all data. This
 # process saves the entire data set
-def save_training_data_proc( config, inputQueue, trainingCacheFile, doneEvent, exitEvent, pydev ):
+def save_training_data_proc(config, inputQueue, trainingCacheFile, doneEvent, exitEvent, pydev):
     if pydev:
         import pydevd
         pydevd.settrace(suspend=False)
 
     trainingData = []
 
-    if os.path.exists( trainingCacheFile ):
-        trainingData = load_training_cache( config, trainingCacheFile )
+    if os.path.exists(trainingCacheFile):
+        trainingData = load_training_cache(config, trainingCacheFile)
         print("Initial training cache entries: {}".format(len(trainingData)))
 
     saveInterval = 10000
@@ -232,33 +259,33 @@ def save_training_data_proc( config, inputQueue, trainingCacheFile, doneEvent, e
 
     while not doneEvent.is_set():
         try:
-            ( faces, morphs ) = inputQueue.get(block=True, timeout=1)
+            (faces, morphs) = inputQueue.get(block=True, timeout=1)
             for face in faces:
-                face._img = None # Don't want to save images
+                face._img = None  # Don't want to save images
 
-            trainingData.append( ( faces, morphs ) )
+            trainingData.append((faces, morphs))
             if len(trainingData) % saveInterval == 0:
                 pendingSave = True
         except queue.Empty:
             if pendingSave:
                 print("Saving {} entries to training cache...".format(len(trainingData)))
-                save_training_cache( config, trainingData, trainingCacheFile )
+                save_training_cache(config, trainingData, trainingCacheFile)
                 print("Done saving training cache")
                 pendingSave = False
         except Exception as e:
             print("Error caching faces: {}".format(str(e)))
 
     print("Saving {} entries in training cache before exiting...".format(len(trainingData)))
-    save_training_cache( config, trainingData, trainingCacheFile )
+    save_training_cache(config, trainingData, trainingCacheFile)
     print("Done saving training cache")
     exitEvent.set()
 
 
-def decode_training_data( obj ):
+def decode_training_data(obj):
     from Utils.Face.encoded import EncodedFace
     from Utils.Face.vam import VamFace
 
-    decoders = [ VamFace.msgpack_decode, EncodedFace.msgpack_decode ]
+    decoders = [VamFace.msgpack_decode, EncodedFace.msgpack_decode]
     for decoder in decoders:
         newObj = decoder(obj)
         if newObj != obj:
@@ -266,11 +293,12 @@ def decode_training_data( obj ):
             break
     return obj
 
-def encode_training_data( obj ):
+
+def encode_training_data(obj):
     from Utils.Face.encoded import EncodedFace
     from Utils.Face.vam import VamFace
 
-    encoders = [ VamFace.msgpack_encode, EncodedFace.msgpack_encode ]
+    encoders = [VamFace.msgpack_encode, EncodedFace.msgpack_encode]
     for encoder in encoders:
         newObj = encoder(obj)
         if newObj != obj:
@@ -278,16 +306,17 @@ def encode_training_data( obj ):
             break
     return obj
 
-def load_training_cache( config, path ):
+
+def load_training_cache(config, path):
     import gc
 
-    inFile = open( path, "rb")
-    unpacker = msgpack.Unpacker( inFile, object_hook=decode_training_data, use_list=True, encoding='utf-8' )
+    inFile = open(path, "rb")
+    unpacker = msgpack.Unpacker(inFile, object_hook=decode_training_data, use_list=True, encoding='utf-8')
     baseFace = unpacker.unpack()
 
-    #Check if the config face matches this cache
+    # Check if the config face matches this cache
     origMorphCnt = len(baseFace.morphs)
-    baseFace.matchMorphs( config.getBaseFace() )
+    baseFace.matchMorphs(config.getBaseFace())
     newMorphCnt = len(baseFace.morphs)
 
     if newMorphCnt != origMorphCnt:
@@ -302,17 +331,19 @@ def load_training_cache( config, path ):
     gc.enable()
     return trainingData
 
-def save_training_cache( config, cacheData, path ):
+
+def save_training_cache(config, cacheData, path):
     if len(cacheData) == 0:
         return
 
-    outFile = open( path, 'wb' )
-    outFile.write( msgpack.packb( config.getBaseFace(), default=encode_training_data, use_bin_type=True) )
+    outFile = open(path, 'wb')
+    outFile.write(msgpack.packb(config.getBaseFace(), default=encode_training_data, use_bin_type=True))
     for item in cacheData:
-        outFile.write( msgpack.packb( item, default=encode_training_data, use_bin_type=True) )
+        outFile.write(msgpack.packb(item, default=encode_training_data, use_bin_type=True))
     outFile.close()
 
-def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, exitEvent, pydev ):
+
+def morphs_to_image_proc(config, inputQueue, outputQueue, tmpDir, doneEvent, exitEvent, pydev):
     if pydev:
         import pydevd
         pydevd.settrace(suspend=False)
@@ -320,11 +351,10 @@ def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, ex
     from Utils.Vam.window import VamWindow
     from Utils.Face.vam import VamFace
     # Initialize the Vam window
-    vamWindow = VamWindow( pipe = "foto2vamPipe" )
+    vamWindow = VamWindow(pipe="foto2vamPipe")
     vamFace = config.getBaseFace()
 
     inputCnt = config.getShape()[0]
-
 
     while not doneEvent.is_set():
         try:
@@ -335,12 +365,12 @@ def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, ex
             morphs = params[inputCnt:]
             vamFace.importFloatList(morphs)
 
-            tmpdir = tempfile.mkdtemp( dir=tmpDir )
-            jsonFile = os.path.join( tmpdir, "face.json" )
-            vamFace.save( jsonFile )
-            vamWindow.loadLook( jsonFile, config.getAngles() )
-            vamWindow.syncPipe( vamWindow._pipe )
-            outputQueue.put( tmpdir )
+            tmpdir = tempfile.mkdtemp(dir=tmpDir)
+            jsonFile = os.path.join(tmpdir, "face.json")
+            vamFace.save(jsonFile)
+            vamWindow.loadLook(jsonFile, config.getAngles())
+            vamWindow.syncPipe(vamWindow._pipe)
+            outputQueue.put(tmpdir)
             # logging.info("put image2encoding item")
 
         except queue.Empty:
@@ -351,7 +381,8 @@ def morphs_to_image_proc( config, inputQueue, outputQueue, tmpDir, doneEvent, ex
     exitEvent.set()
 
 
-def image_to_encoding_proc( config, batchSize, inputQueue, outputQueue, trainingCacheQueue, doneEvent, encodingDiedEvent, exitEvent, pydev ):
+def image_to_encoding_proc(config, batchSize, inputQueue, outputQueue, trainingCacheQueue, doneEvent, encodingDiedEvent,
+                           exitEvent, pydev):
     if pydev:
         import pydevd
         pydevd.settrace(suspend=False)
@@ -364,24 +395,24 @@ def image_to_encoding_proc( config, batchSize, inputQueue, outputQueue, training
         try:
             work = inputQueue.get(block=True, timeout=1)
             # logging.info("Got image2encoding item")
-            pathList.append( work )
+            pathList.append(work)
             submitWork = len(pathList) >= batchSize
         except queue.Empty:
             submitWork = len(pathList) > 0
 
         if submitWork:
             try:
-                encodings = getEncodingsFromPaths( pathList, recursive=False, cache = False )
-                for data in zip( pathList, encodings ):
+                encodings = getEncodingsFromPaths(pathList, recursive=False, cache=False)
+                for data in zip(pathList, encodings):
                     try:
-                        if not validatePerson( data[1] ):
+                        if not validatePerson(data[1]):
                             raise Exception("Image failed validation!")
-                        params = config.generateParams( data[1] + [os.path.join( data[0], "face.json") ] )
+                        params = config.generateParams(data[1] + [os.path.join(data[0], "face.json")])
                         params_valid = True
                         # Cache off the face
-                        trainingCacheQueue.put( ( data[1], params[inputCnt:] ) )
+                        trainingCacheQueue.put((data[1], params[inputCnt:]))
                         # Send it off to the neural net training
-                        outputQueue.put( ( params_valid, params ) )
+                        outputQueue.put((params_valid, params))
                         # logging.info("put encoding2morph")
                     except Exception as e:
                         pass
@@ -392,43 +423,44 @@ def image_to_encoding_proc( config, batchSize, inputQueue, outputQueue, training
                 encodingDiedEvent.set()
                 raise SystemExit()
             except Exception as e:
-                print( str(e) )
+                print(str(e))
             finally:
                 for path in pathList:
                     try:
-                        shutil.rmtree( path, ignore_errors=True)
+                        shutil.rmtree(path, ignore_errors=True)
                     except:
                         pass
                 pathList.clear()
 
     exitEvent.set()
 
-def validatePerson( encodingList ):
-    ok = samePerson( encodingList, tolerance=0.6 )
+
+def validatePerson(encodingList):
+    ok = samePerson(encodingList, tolerance=0.6)
     for encoding in encodingList:
         if not ok:
             break
-        valid = landmarksValid( encoding )
+        valid = landmarksValid(encoding)
         ok = valid > 0.9
     return ok
 
 
-def samePerson( encodingList, tolerance=.6 ):
-    for idx,encoding in enumerate(encodingList):
-        for encoding2 in encodingList[idx+1:]:
+def samePerson(encodingList, tolerance=.6):
+    for idx, encoding in enumerate(encodingList):
+        for encoding2 in encodingList[idx + 1:]:
             if encoding.compare(encoding2) > tolerance:
                 return False
     return True
 
 
-def landmarksValid( encoding ):
+def landmarksValid(encoding):
     landmarks = encoding.getLandmarks()
     img = encoding.getImage()
     bgColor = img[0][0]
 
     totalPoints = 0
     invalidPoints = 0
-    for feature,points in landmarks.items():
+    for feature, points in landmarks.items():
         for point in points:
             totalPoints += 1
             try:
@@ -436,103 +468,130 @@ def landmarksValid( encoding ):
                     invalidPoints += 1
             except IndexError:
                 invalidPoints += 1
-    return (totalPoints-invalidPoints)/totalPoints
+    return (totalPoints - invalidPoints) / totalPoints
 
 
-def saveTrainingData( dataName, trainingInputs, trainingOutputs ):
+def saveFile(filename, data):
+    file = open(filename, 'wb')
+    file.write(msgpack.packb(data, default=encode_training_data, use_bin_type=True))
+    file.close()
+
+
+def readFile(filename):
+    file = open(filename, 'rb')
+    gc.disable()
+    unpacker = msgpack.Unpacker(file, object_hook=decode_training_data, use_list=True, encoding='utf-8')
+    data = unpacker.unpack()
+    gc.enable()
+    file.close()
+
+    return data
+
+
+def saveTrainingData(dataName, trainingInputs, trainingOutputs, validationInputs, validationOutputs):
     if len(trainingInputs) != len(trainingOutputs):
         raise Exception("Input length mismatch with output length!")
 
-    outFile = open( dataName, 'wb' )
-    msgpack.pack( ( trainingInputs, trainingOutputs ), outFile, use_bin_type=True )
+    outFile = open(dataName, 'wb')
+    valOutFile = open(dataName + ".val", 'wb')
+    msgpack.pack((trainingInputs, trainingOutputs), outFile, use_bin_type=True)
+    msgpack.pack((validationInputs, validationOutputs), valOutFile, use_bin_type=True)
+    valOutFile.close()
     outFile.close()
 
-def readTrainingData( dataName ):
-    dataFile = open( dataName, "rb" )
+
+def readTrainingData(dataName):
+    dataFile = open(dataName, "rb")
     gc.disable()
-    inputList,outputList = msgpack.unpack( dataFile )
+    inputList, outputList = msgpack.unpack(dataFile)
     gc.enable()
     dataFile.close()
     return list(inputList), list(outputList)
 
 
-def queueRandomOutputParams( config, trainingMorphsList, queue ):
+def queueRandomOutputParams(config, trainingMorphsList, queue):
     inputCnt = config.getShape()[0]
     outputCnt = config.getShape()[1]
-    inputParams = [0]*inputCnt
+    inputParams = [0] * inputCnt
 
     newFace = copy.deepcopy(config.getBaseFace())
 
     # Choose random number to decide what modification we apply
     rand = random.random()
     # select which morphs to modify
-    modifyIdxs = random.sample( range(len(newFace.morphFloats)), random.randint(1,25) )
+    modifyIdxs = random.sample(range(len(newFace.morphFloats)), random.randint(1, 25))
 
     if len(trainingMorphsList) > 10:
-        randomIdxs = random.sample( range(len(trainingMorphsList)), 2 )
+        randomIdxs = random.sample(range(len(trainingMorphsList)), 2)
 
         newFaceMorphs = trainingMorphsList[randomIdxs[0]]
-        newFace.importFloatList( newFaceMorphs )
+        newFace.importFloatList(newFaceMorphs)
 
         if rand < .6:
             face2Morphs = trainingMorphsList[randomIdxs[1]]
-            face2 = copy.deepcopy( config.getBaseFace() )
-            face2.importFloatList( face2Morphs )
-            mate(newFace, face2, modifyIdxs )
-            queue.put_nowait( inputParams + newFace.morphFloats )
+            face2 = copy.deepcopy(config.getBaseFace())
+            face2.importFloatList(face2Morphs)
+            mate(newFace, face2, modifyIdxs)
+            queue.put_nowait(inputParams + newFace.morphFloats)
         elif rand < .9:
             for idx in modifyIdxs:
-                newFace.changeMorph( idx, -1 + 2*random.random() )
-                queue.put_nowait( inputParams + newFace.morphFloats )
+                newFace.changeMorph(idx, -1 + 2 * random.random())
+                queue.put_nowait(inputParams + newFace.morphFloats)
         elif rand < .95:
-            numSteps = 5#random.randint(5,15)
+            numSteps = 5  # random.randint(5,15)
             for idx in modifyIdxs:
-                face2 = copy.deepcopy( newFace )
+                face2 = copy.deepcopy(newFace)
                 minVal = face2.morphInfo[idx]['min']
                 maxVal = face2.morphInfo[idx]['max']
-                stepSize = ( maxVal - minVal) / numSteps
+                stepSize = (maxVal - minVal) / numSteps
 
                 face2.morphFloats[idx] = minVal
-                queue.put( inputParams + face2.morphFloats )
+                queue.put(inputParams + face2.morphFloats)
                 for step in range(numSteps):
-                    face2.changeMorph( idx, stepSize )
-                    queue.put( inputParams + face2.morphFloats )
+                    face2.changeMorph(idx, stepSize)
+                    queue.put(inputParams + face2.morphFloats)
         else:
-            mutate(newFace, modifyIdxs )
-            queue.put_nowait( inputParams + newFace.morphFloats )
+            mutate(newFace, modifyIdxs)
+            queue.put_nowait(inputParams + newFace.morphFloats)
     else:
         # 90% chance to use baseface, otherwise completely random morphs.
         if rand < .9:
-            mutate(newFace, modifyIdxs )
+            mutate(newFace, modifyIdxs)
         else:
             newFace.randomize()
-        queue.put_nowait( inputParams + newFace.morphFloats )
+        queue.put_nowait(inputParams + newFace.morphFloats)
 
 
 def mutate(face, idxList):
     for idx in idxList:
-        face.randomize( idx )
+        face.randomize(idx)
 
 
-def mate(targetFace, otherFace, idxList ):
+def mate(targetFace, otherFace, idxList):
     if len(targetFace.morphFloats) != len(otherFace.morphFloats):
-        raise Exception("Morph float list didn't match! {} != {}".format(len(targetFace.morphFloats), len(otherFace.morphFloats)))
+        raise Exception(
+            "Morph float list didn't match! {} != {}".format(len(targetFace.morphFloats), len(otherFace.morphFloats)))
     for idx in idxList:
-        weightA = random.randint(1,100)
+        weightA = random.randint(1, 100)
         weightB = 100 - weightA
-        matedValue = ( ( weightA * targetFace.morphFloats[idx] ) + ( weightB * otherFace.morphFloats[idx] ) ) / ( weightA + weightB )
+        matedValue = ((weightA * targetFace.morphFloats[idx]) + (weightB * otherFace.morphFloats[idx])) / (
+                    weightA + weightB)
         targetFace.morphFloats[idx] = matedValue
 
-def load_cache_param_gen_helper( config, item ):
-    faces,morphs = item
+
+def load_cache_param_gen_helper(config, item):
+    faces, morphs = item
     inputCnt = config.getShape()[0]
     params = config.generateParams(faces)
     return params[:inputCnt] + list(morphs)
 
-def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGenerateFrom, inputQueue, outputQueue, doneEvent, exitEvent, onlySeed, pydev ):
+
+def neural_net_proc(config, modelFile, batchSize, initialEncodings, cacheToGenerateFrom, inputQueue, outputQueue,
+                    doneEvent, exitEvent, onlySeed, trainingHistoryFile, pydev):
     # Work around low-memory GPU issue
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     import tensorflow as tf
+    import random, pickle
     tfConfig = tf.ConfigProto()
     tfConfig.gpu_options.allow_growth = True
     session = tf.Session(config=tfConfig)
@@ -552,9 +611,20 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
     trainingInputs = []
     trainingOutputs = []
 
-    neuralNet = create_neural_net( inputCnt, outputCnt, modelFile )
-    if os.path.exists( dataName ) and not onlySeed:
-        trainingInputs,trainingOutputs = readTrainingData( dataName )
+    neuralNet = create_neural_net(inputCnt, outputCnt, modelFile)
+    neuralNet = mod_neural_net(neuralNet)
+    logging.info(neuralNet.summary())
+
+    if os.path.exists(dataName) and not onlySeed:
+        trainingInputs, trainingOutputs = readTrainingData(dataName)
+
+        logging.info("Read from training file, Tin: %s, Tout: %s",
+                     len(trainingInputs), len(trainingOutputs))
+    if os.path.exists(dataName + ".val") and not onlySeed:
+        validationInputs, validationOutputs = readTrainingData(dataName + ".val")
+
+        logging.info("Read from training file, Vin: %s, Vout: %s",
+                     len(validationInputs), len(validationOutputs))
 
     lastSaveIdx = len(trainingInputs)
     pendingSave = False
@@ -563,25 +633,28 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
         from functools import partial
 
         print("Currently have {} samples, now generating from training cache...".format(len(trainingInputs)))
-        cache = load_training_cache( config, cacheToGenerateFrom )
+        cache = load_training_cache(config, cacheToGenerateFrom)
         pendingSave = True
 
         # Multi-process loading the cache
-        poolFunc = partial( load_cache_param_gen_helper, config )
+        poolFunc = partial(load_cache_param_gen_helper, config)
         pool = multiprocessing.Pool(multiprocessing.cpu_count())
-        for res in tqdm.tqdm(pool.imap_unordered( poolFunc, cache ), total=len(cache) ):
-            trainingInputs.append( res[:inputCnt] )
-            trainingOutputs.append( res[inputCnt:] )
+        for res in tqdm.tqdm(pool.imap_unordered(poolFunc, cache), total=len(cache)):
+            trainingInputs.append(res[:inputCnt])
+            trainingOutputs.append(res[inputCnt:])
         pool.close()
 
     print("Starting with {} training samples".format(len(trainingInputs)))
 
     lastSeedOnlyInputTime = 0
     lastSeedOnlyInputCount = 0
+    epochs = 1
     lastSave = time.time()
     outputQueueSize = 256
     outputQueueSaveSize = 1024
     lastReEnqueueCnt = 0
+    histories = []
+
     while not doneEvent.is_set():
         try:
             morphsValid, params = inputQueue.get(block=False)
@@ -591,15 +664,15 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
 
             # If valid we can train on it
             if morphsValid:
-                if random.random() < .25 and len(validationInputs) < validationPercent*len(trainingInputs):
-                    validationInputs.append( inputs )
-                    validationOutputs.append( outputs )
+                if random.random() < .25 and len(validationInputs) < validationPercent * len(trainingInputs):
+                    validationInputs.append(inputs)
+                    validationOutputs.append(outputs)
                 else:
-                    trainingInputs.append( inputs )
-                    trainingOutputs.append( outputs )
-                    if time.time() > lastSave + 120*60 and len(trainingInputs) % 50 == 0:
+                    trainingInputs.append(inputs)
+                    trainingOutputs.append(outputs)
+                    if time.time() > lastSave + 120 * 60 and len(trainingInputs) % 50 == 0:
                         pendingSave = True
-                #print( "{} valid faces".format( len(trainingInputs) ) )
+                # print( "{} valid faces".format( len(trainingInputs) ) )
 
             if len(trainingInputs) != lastReEnqueueCnt and len(trainingInputs) % 100 == 0:
                 lastReEnqueueCnt = len(trainingInputs)
@@ -607,16 +680,16 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
                 for encoding in initialEncodings:
                     try:
                         params = config.generateParams(encoding)
-                        inputQueue.put( ( False, params ) )
+                        inputQueue.put((False, params))
                     except:
                         pass
 
             # Don't use predictions until we have trained a bit
-            if ( len(trainingInputs) > 10000 ) or onlySeed:
+            if (len(trainingInputs) > 10000) or onlySeed:
                 # Now given the encoding, what morphs would we have predicted?
-                predictedOutputs = create_prediction( neuralNet, np.array([inputs]) )
+                predictedOutputs = create_prediction(neuralNet, np.array([inputs]))
                 predictedParams = inputs + list(predictedOutputs[0])
-                outputQueue.put( predictedParams )
+                outputQueue.put(predictedParams)
                 # logging.info("put morph2image item")
                 # Queue a random look for every predicted look. Sometimes we get stuck with
                 # only predicted looks filling the queue, and it causes a downward spiral
@@ -631,37 +704,44 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
                 if not onlySeed:
                     while outputQueue.qsize() < reqdSize:
                         queueRandomOutputParams(config, trainingOutputs, outputQueue)
-                elif ( len(trainingInputs) > lastSeedOnlyInputCount ) or ( time.time() > lastSeedOnlyInputTime + 10 ):
+                elif (len(trainingInputs) > lastSeedOnlyInputCount) or (time.time() > lastSeedOnlyInputTime + 10):
                     lastSeedOnlyInputCount = len(trainingInputs)
                     lastSeedOnlyInputTime = time.time()
                     for encoding in initialEncodings:
                         try:
                             params = config.generateParams(encoding)
-                            inputQueue.put( ( False, params ) )
+                            inputQueue.put((False, params))
                         except:
                             pass
 
             finally:
                 while True:
-                    if len(trainingInputs) > 5000 or ( onlySeed and len(trainingInputs) > 0 ):
-                        neuralNet.fit( x=np.array(trainingInputs), y=np.array(trainingOutputs), batch_size=batchSize, epochs=1, verbose=1)
+                    if len(trainingInputs) > 5000 or (onlySeed and len(trainingInputs) > 0):
+                        history = neuralNet.fit(x=np.array(trainingInputs), y=np.array(trainingOutputs),
+                                                batch_size=batchSize, epochs=epochs, verbose=1)
+                        histories.append(history.history)
+                        if trainingHistoryFile:
+                            with open(trainingHistoryFile, 'wb') as f:
+                                pickle.dump(histories, f)
                         if len(validationInputs) > 0:
-                            metrics = neuralNet.evaluate( x=np.array(validationInputs), y=np.array(validationOutputs), batch_size=batchSize, verbose=1)
-                            print( "Trained over {} samples, validated over {} samples. ".format(len(trainingInputs), len(validationInputs)), end='\t')
-                            for metric,val in zip(neuralNet.metrics_names, metrics):
-                                print("( {} : {} )".format(metric,val), end='\t')
+                            metrics = neuralNet.evaluate(x=np.array(validationInputs), y=np.array(validationOutputs),
+                                                         batch_size=batchSize, verbose=1)
+                            print("Trained over {} samples, validated over {} samples. ".format(len(trainingInputs),
+                                                                                                len(validationInputs)),
+                                  end='\t')
+                            for metric, val in zip(neuralNet.metrics_names, metrics):
+                                print("( {} : {} )".format(metric, val), end='\t')
                         print("")
                     if not GetKeyState(VK_CAPITAL):
                         break
                     pendingSave = True
                     print("Caps Lock is enabled. Continually training and not feeding image generator")
 
-
             if pendingSave:
                 print("Saving model...")
-                neuralNet.save( modelFile )
+                neuralNet.save(modelFile)
                 print("Done saving model, saving training data...")
-                saveTrainingData( dataName, trainingInputs, trainingOutputs)
+                saveTrainingData(dataName, trainingInputs, trainingOutputs, validationInputs, validationOutputs)
                 lastSaveIdx = len(trainingInputs)
                 print("Save complete!")
                 lastSave = time.time()
@@ -676,23 +756,23 @@ def neural_net_proc( config, modelFile, batchSize, initialEncodings, cacheToGene
                     print("Increased outputSaveQueueSize to {}".format(outputQueueSize))
             pendingSave = False
 
-
     print("Saving before exit...")
-    neuralNet.save( modelFile )
+    neuralNet.save(modelFile)
     print("Model saved. Saving training data")
-    saveTrainingData( dataName, trainingInputs, trainingOutputs)
+    saveTrainingData(dataName, trainingInputs, trainingOutputs, validationInputs, validationOutputs)
     print("Save complete.")
     exitEvent.set()
 
-def create_prediction( nn, input ):
+
+def create_prediction(nn, input):
     prediction = nn.predict(input)
 
-    #limit range of output
-    #prediction = np.around(np.clip(prediction, -1.5, 1.5 ),3)
+    # limit range of output
+    # prediction = np.around(np.clip(prediction, -1.5, 1.5 ),3)
     return prediction
 
 
-def create_neural_net( inputCnt, outputCnt, modelPath ):
+def create_neural_net(inputCnt, outputCnt, modelPath):
     from keras.models import load_model, Model, Sequential
     from keras.optimizers import Adam
     from keras.layers import Input, Dense, Dropout, LeakyReLU, BatchNormalization
@@ -703,19 +783,19 @@ def create_neural_net( inputCnt, outputCnt, modelPath ):
 
     model = Sequential()
 
-    model.add(Dense(7*inputCnt, input_shape=(inputCnt,), kernel_initializer='random_uniform'))
+    model.add(Dense(7 * outputCnt, input_shape=(inputCnt,), kernel_initializer='random_uniform'))
     model.add(LeakyReLU())
     model.add(Dropout(.5))
 
-    model.add(Dense(7*inputCnt, kernel_initializer='random_uniform'))
+    model.add(Dense(5 * outputCnt, kernel_initializer='random_uniform'))
     model.add(LeakyReLU())
     model.add(Dropout(.5))
 
-    model.add(Dense(7*inputCnt, kernel_initializer='random_uniform'))
+    model.add(Dense(3 * outputCnt, kernel_initializer='random_uniform'))
     model.add(LeakyReLU())
     model.add(Dropout(.5))
 
-    model.add(Dense(7*inputCnt, kernel_initializer='random_uniform'))
+    model.add(Dense(2 * outputCnt, kernel_initializer='random_uniform'))
     model.add(LeakyReLU())
     model.add(Dropout(.5))
 
@@ -725,31 +805,47 @@ def create_neural_net( inputCnt, outputCnt, modelPath ):
 
     input = Input(shape=(inputCnt,))
     predictor = model(input)
-    nn = Model( input, predictor )
+    nn = Model(input, predictor)
 
-    optimizer = Adam( lr=0.0001 )
+    optimizer = Adam(lr=0.0001)
     nn.compile(loss='logcosh',
                optimizer=optimizer,
                metrics=['accuracy'])
 
     return nn
 
+
+def mod_neural_net(model):
+    if not SHOULD_MOD:
+        return model
+
+    from keras.optimizers import RMSprop
+    model.compile(loss='logcosh',
+                  optimizer=RMSprop(lr=1e-5),
+                  metrics=['accuracy'])
+
+    return model
+
+
 ###############################
 # parse arguments
 #
 def parseArgs():
-    parser = argparse.ArgumentParser( description="Train GAN" )
+    parser = argparse.ArgumentParser(description="Train GAN")
     parser.add_argument('--configFile', help="Model configuration file", required=True)
-    parser.add_argument('--seedImagePath', help="Root path for seed images. Must have at least 1 valid seed imageset", required=True)
+    parser.add_argument('--seedImagePath', help="Root path for seed images. Must have at least 1 valid seed imageset",
+                        required=True)
     parser.add_argument('--onlySeedImages', action='store_true', default=False, help="Train *only* on the seed images")
     parser.add_argument('--seedJsonPath', help="Path to JSON looks to seed training with", default=None)
-    parser.add_argument('--tmpDir', help="Directory to store temporary files. Recommend to use a RAM disk.", default='D:/Generated/')
+    parser.add_argument('--trainingHistoryPath', help="Path to a training history file", default=None)
+    parser.add_argument('--tmpDir', help="Directory to store temporary files. Recommend to use a RAM disk.",
+                        default='D:/Generated/')
     parser.add_argument('--encBatchSize', help="Batch size for generating encodings", default=64)
     parser.add_argument('--outputFile', help="File to write output model to", default="output.model")
     parser.add_argument('--trainingDataCache', help="File to cache raw training data", default="training.cache")
-    parser.add_argument('--useTrainingDataCache', default=False, action='store_true', help="Generates training data from the cache and adds it to training data. Useful on first run with new config")
+    parser.add_argument('--useTrainingDataCache', default=False, action='store_true',
+                        help="Generates training data from the cache and adds it to training data. Useful on first run with new config")
     parser.add_argument("--pydev", action='store_true', default=False, help="Enable pydevd debugging")
-
 
     return parser.parse_args()
 
@@ -760,4 +856,4 @@ def parseArgs():
 if __name__ == "__main__":
     multiprocessing.freeze_support()
     args = parseArgs()
-    main( args )
+    main(args)

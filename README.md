@@ -4,7 +4,38 @@ This is a fork of [https://github.com/ChrisTopherTa54321/foto2vam](https://githu
 
 Splits on commit 047e1d3e9eea07a7664b498cdc26a791381f5891
 
+# Running
+
+Download models from [here](https://mega.nz/#F!OXgXiaRC!0SbdCBmlDtu2VEkFkKxPAQ), and place them inside models directory. 
+
+each model and corresponding json file must be together. 
+
+Install anaconda, put binaries in path and create a new environment named `foto2vam`. 
+
+Open a command prompt session in the root directory of this repo, then run
+
+```sh
+activate && activate foto2vam
+pip install -r requirements.txt
+```
+
+after everything is installed, place a default look's json (any look you want the body of) 
+in Sample\default.json
+
+Now just run `run.cmd` file in the same command prompt window you activated foto2vam in.
+
+you will not need to install pip dependencies again, in future you can run it via
+
+```sh
+activate && activate foto2vam
+run
+```
+
+place real faces inside a folder in `input` folder, and output will be inside `output` folder.
+
 # Training
+
+[Original Author's instructions](https://www.reddit.com/r/VAMscenes/comments/9kb03v/tutorial_training_foto2vam_models/)
 
 In order to train you need to run modded VaM and use `Tools/TrainSelf.py` to communicate with VaM. In order to run this 
 successfully you must first modify the main game assembly to get past scripting limitations. Using dnSpy or a similar
